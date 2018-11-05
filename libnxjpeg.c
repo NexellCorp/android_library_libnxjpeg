@@ -247,9 +247,9 @@ static unsigned char huffman_table[DHT_SIZE] =
 	,0xE8,0xE9,0xEA,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,0xF8,0xF9,0xFA};
 
 /* Dummy JPEG methods */
-METHODDEF(void) dummy_init_destination( j_compress_ptr cinfo ){}
-static boolean dummy_empty_output_buffer( j_compress_ptr cinfo ){return TRUE;}
-static void dummy_term_destination( j_compress_ptr cinfo ){}
+METHODDEF(void) dummy_init_destination( j_compress_ptr cinfo ){(void)(cinfo);}
+static boolean dummy_empty_output_buffer( j_compress_ptr cinfo ){(void)(cinfo); return TRUE;}
+static void dummy_term_destination( j_compress_ptr cinfo ){(void)(cinfo);}
 static unsigned char *temp_buf;
 
 /* Encodes a YUV planar frame of width "d->c->width and height "d->c->height" at "src" straight
@@ -956,7 +956,7 @@ int NX_JpegEncoding(unsigned char *destImage,
 		return ret;
 	}
 	SLOGD("%s convert inputImage to JPEG\n", __func__);
-	d.convert(&d, inputImage, destImage);
+	d.convert(&d, (unsigned char*)inputImage, destImage);
 	destroy_jpeg_compressor(&d);
 
 	return d.len;

@@ -4,8 +4,9 @@ include $(CLEAR_VARS)
 #LOCAL_PRELINK_MODULE := false
 
 #LOCAL_MODULE_TAGS := optional
+LOCAL_VENDOR_MODULE := true
 
-LOCAL_SHARED_LIBRARIES := liblog libcutils libjpeg
+LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libjpeg
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)	\
