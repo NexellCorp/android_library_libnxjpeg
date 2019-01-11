@@ -1,6 +1,5 @@
 #define LOG_TAG "NXJpegLib"
 
-//#include <utils/Log.h>
 #include <stdio.h>
 #include <stdlib.h>
 
