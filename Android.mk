@@ -1,9 +1,9 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-#LOCAL_PRELINK_MODULE := false
-
-#LOCAL_MODULE_TAGS := optional
+ifeq ($(BUILD_ID), PI)
+LOCAL_VENDOR_MODULE := true
+endif
 
 LOCAL_SHARED_LIBRARIES := liblog libcutils libjpeg
 
