@@ -1,11 +1,13 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-ifeq ($(BUILD_ID), PI)
+ANDROID_VERSION_STR := $(PLATFORM_VERSION)
+ANDROID_VERSION := $(firstword $(ANDROID_VERSION_STR))
+ifeq ($(ANDROID_VERSION), 9)
 LOCAL_VENDOR_MODULE := true
 endif
 
-LOCAL_SHARED_LIBRARIES := liblog libcutils libjpeg
+LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libjpeg
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)	\
