@@ -247,9 +247,9 @@ static unsigned char huffman_table[DHT_SIZE] =
 	,0xE8,0xE9,0xEA,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,0xF8,0xF9,0xFA};
 
 /* Dummy JPEG methods */
-METHODDEF(void) dummy_init_destination( j_compress_ptr cinfo ){}
-static boolean dummy_empty_output_buffer( j_compress_ptr cinfo ){return TRUE;}
-static void dummy_term_destination( j_compress_ptr cinfo ){}
+METHODDEF(void) dummy_init_destination( j_compress_ptr cinfo ){(void)(cinfo);}
+static boolean dummy_empty_output_buffer( j_compress_ptr cinfo ){(void)(cinfo); return TRUE;}
+static void dummy_term_destination( j_compress_ptr cinfo ){(void)(cinfo);}
 static unsigned char *temp_buf;
 
 /* Encodes a YUV planar frame of width "d->c->width and height "d->c->height" at "src" straight
@@ -272,7 +272,7 @@ static void jpeg_encode_yuv420(struct convert_context *d, unsigned char *src, un
 
 	JSAMPROW y[16],cb[16],cr[16];
 	JSAMPARRAY data[3];
-	int i, line, rgb_size, width, height, ystride, cstride;
+	unsigned int i, line, rgb_size, width, height, ystride, cstride;
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
 	width = d->width;
 	height = d->height;
@@ -429,7 +429,7 @@ static void jpeg_encode_yuyv(struct convert_context *d, unsigned char *src, unsi
 	//it should be possible to send a YUYV frame straight to the jpeg compressor without converting to RGB first
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
 	JSAMPROW row[1] = {temp_buf};
-	int a=0, width = d->width, height = d->height, x, rgb_size;
+	unsigned int a=0, width = d->width, height = d->height, x, rgb_size;
 	int r, g, b;
 	int y, u, v;
 	unsigned char *ptr;
@@ -489,7 +489,7 @@ static void jpeg_encode_yvyu(struct convert_context *d, unsigned char *src, unsi
 	//it should be possible to send a YVYU frame straight to the jpeg compressor without converting to RGB first
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
 	JSAMPROW row[1] = {temp_buf};
-	int a=0, width = d->width, height = d->height, x, rgb_size;
+	unsigned int a=0, width = d->width, height = d->height, x, rgb_size;
 	int r, g, b;
 	int y, u, v;
 	unsigned char *ptr;
@@ -548,7 +548,7 @@ static void jpeg_encode_yvyu(struct convert_context *d, unsigned char *src, unsi
 static void jpeg_encode_uyvy(struct convert_context *d, unsigned char *src, unsigned char *dst){
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
 	JSAMPROW row[1] = {temp_buf};
-	int a=0, width = d->width, height = d->height, x, rgb_size;
+	unsigned int a=0, width = d->width, height = d->height, x, rgb_size;
 	int r, g, b;
 	int y, u, v;
 	unsigned char *ptr;
@@ -605,7 +605,7 @@ static void jpeg_encode_uyvy(struct convert_context *d, unsigned char *src, unsi
  */
 static void jpeg_encode_rgb32(struct convert_context *d, unsigned char *src, unsigned char *dst){
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
-	int width = d->width, height = d->height, x, rgb_size;
+	unsigned int width = d->width, height = d->height, x, rgb_size;
 	JSAMPROW row[1] = {temp_buf};
 	unsigned char *ptr;
 
@@ -644,7 +644,7 @@ static void jpeg_encode_rgb32(struct convert_context *d, unsigned char *src, uns
  */
 static void jpeg_encode_bgr24(struct convert_context *d, unsigned char *src, unsigned char *dst){
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
-	int width = d->width, height = d->height, x, rgb_size;
+	unsigned int width = d->width, height = d->height, x, rgb_size;
 	JSAMPROW row[1] = {temp_buf};
 	unsigned char *ptr;
 
@@ -684,7 +684,7 @@ static void jpeg_encode_bgr24(struct convert_context *d, unsigned char *src, uns
  */
 static void jpeg_encode_bgr32(struct convert_context *d, unsigned char *src, unsigned char *dst){
 	struct jpeg_compress_struct *cinfo = d->j->cinfo;
-	int width = d->width, height = d->height, x, rgb_size;
+	unsigned int width = d->width, height = d->height, x, rgb_size;
 	JSAMPROW row[1] = {temp_buf};
 	unsigned char *ptr;
 
@@ -956,7 +956,7 @@ int NX_JpegEncoding(unsigned char *destImage,
 		return ret;
 	}
 	SLOGD("%s convert inputImage to JPEG\n", __func__);
-	d.convert(&d, inputImage, destImage);
+	d.convert(&d, (unsigned char*)inputImage, destImage);
 	destroy_jpeg_compressor(&d);
 
 	return d.len;
